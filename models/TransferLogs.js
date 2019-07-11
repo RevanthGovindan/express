@@ -3,8 +3,10 @@ const uuid = require('uuid/v4');
 
 var TransferLogs = new mongoose.Schema({
     uuid: uuid(),
-    availablebanks: Array,
-    availablefunds: Number
+    amount : Number,
+    transferAt : Date,
+    status : String,
+    bank : Object
 });
 
 module.exports = mongoose.model('transferlogs', TransferLogs);
