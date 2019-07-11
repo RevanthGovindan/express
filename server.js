@@ -1,7 +1,8 @@
+const constants = require("./common/constants").config;
 const express = require("express");
 const bodyParser = require('body-parser');
 const server = express();
-const port = 8000;
+const port = constants.PORT;
 //const app = require("./app");
 const router = require("./routes/router");
 
