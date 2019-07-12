@@ -11,6 +11,10 @@ router.post('/user/adduser', (req, res) => {
     userController.addUser(req, res);
 });
 
+router.post('/user/updatepassword', (req, res) => {
+    userController.updatePassword(req, res);
+})
+
 router.post('/user/login', (req, res) => {
     userController.login(req, res);
 })

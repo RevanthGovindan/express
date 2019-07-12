@@ -1,0 +1,147 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Fund transfer demo",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:8000",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Users",
+            "description": "API for users in the system"
+        }
+    ],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/user/adduser": {
+            "post": {
+                "tags": [
+                    "Add user"
+                ],
+                "description": "Add new user",
+                "parameters": [
+                    {
+                        "name": "Add user",
+                        "in": "body",
+                        "description": "User that we want to create",
+                        "schema": {
+                            "$ref": "#/definitions/adduser"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/user/updatepassword": {
+            "post": {
+                "tags": [
+                    "update password"
+                ],
+                "description": "update password for user",
+                "parameters": [
+                    {
+                        "name": "update password for user",
+                        "in": "body",
+                        "description": "User that we want to create",
+                        "schema": {
+                            "$ref": "#/definitions/updatepassword"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "adduser": {
+            "required": [
+                "name",
+                "email",
+                "phoneNo",
+                "age",
+                "DOB",
+                "city",
+                "state",
+                "country"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "email": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "phoneNo": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "age": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "DOB": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "city": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "state": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "country": {
+                    "type": "string",
+                    "uniqueItems": true
+                }
+            }
+        },
+        "updatepassword": {
+            "required": [
+                "id",
+                "password"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "password": {
+                    "type": "string",
+                    "uniqueItems": true
+                }
+            }
+        }
+    }
+}
