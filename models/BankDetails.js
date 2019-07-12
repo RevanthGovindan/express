@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 const uuid = require('uuid/v4');
 
 var BankDetails = new mongoose.Schema({
-    uuid: uuid(),
+    uuid: { type: String, default: uuid() },
     availablebanks: [{
         bankName: String,
         payInOptions: [{
@@ -10,7 +10,8 @@ var BankDetails = new mongoose.Schema({
             url: String
         }],
         accountNumber: String,
-        accountType: String
+        accountType: String,
+        ifsc:String
     }],
     availablefunds: Number
 });

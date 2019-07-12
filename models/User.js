@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 const uuid = require('uuid/v4');
 var User = new mongoose.Schema({
-    uuid: uuid(),
+    id: { type: String, default: uuid() },
     name: String,
     email: String,
     phoneNo: String,
@@ -9,7 +9,8 @@ var User = new mongoose.Schema({
     DOB: String,
     city: String,
     state: String,
-    country: String
+    country: String,
+    password: String
 });
 
 module.exports = mongoose.model('user', User);
