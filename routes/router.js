@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const userController = require('../controlllers/UserController');
 router.get('/one', (req, res) => {
-    console.log((req.body));
     res.status(200).json({ message: 'Connected!' });
 });
 
