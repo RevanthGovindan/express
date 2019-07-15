@@ -78,6 +78,32 @@
                     }
                 }
             }
+        },
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "login"
+                ],
+                "description": "user login",
+                "parameters": [
+                    {
+                        "name": "log in",
+                        "in": "body",
+                        "description": "User email and password",
+                        "schema": {
+                            "$ref": "#/definitions/login"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -134,6 +160,22 @@
             ],
             "properties": {
                 "id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "password": {
+                    "type": "string",
+                    "uniqueItems": true
+                }
+            }
+        },
+        "login": {
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
                     "type": "string",
                     "uniqueItems": true
                 },
