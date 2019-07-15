@@ -1,4 +1,5 @@
-const  constants = require('../common/constants');
+const constants = require('../common/constants');
+const log = require('../helpers/log4j').logger;
 module.exports.Errorhandler = (err, req, res) => {
     let message = '';
     let code = 500;
@@ -23,5 +24,6 @@ module.exports.Errorhandler = (err, req, res) => {
             }
         }
     }
+    log.error(response)
     res.status(code).json({ response: response });
 }

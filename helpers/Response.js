@@ -1,28 +1,33 @@
+const log = require('../helpers/log4j').logger;
 function Response() {
     this.data = {};
-    this.success = true;
-    this.infoId = '001';
+    this.infoId = null;
+    this.infoMsg = '';
 }
 
 Response.prototype.setData = (data) => {
     this.data = data;
 }
 
-Response.prototype.setSuccess = (result) => {
-    this.success = result;
-}
-
 Response.prototype.setInfoId = (infoId) => {
-    this.setInfoId = infoId;
+    this.infoId = infoId;
 }
 
-Response.prototype.getResponse = () => {
+Response.prototype.setInfoMsg = (infoMsg) => {
+    this.infoMsg = infoMsg;
+}
+
+Response.prototype.sendResponse = (httpRes) => {
+    if (!this.infoId) {
+        this.infoId = '001';
+    }
     let response = {
-        success: this.success,
         data: this.data,
-        infoId: this.infoId
+        infoId: this.infoId,
+        infoMsg: this.infoMsg
     };
-    return response;
+    log.debug(response);
+    httpRes.send(response);
 }
 
 module.exports = Response;
