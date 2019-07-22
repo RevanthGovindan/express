@@ -12,13 +12,12 @@ const error = require('./helpers/Errorhandler');
 
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-
+server.use(app.cors);
 server.use(app.intercept);
 server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 server.use("/", router);
 
 server.use(error.Errorhandler)
-server.use(app.cors);
 
 server.listen(port, () => {
     console.log('Server is up and running on port numner ' + port);
