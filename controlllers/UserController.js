@@ -46,7 +46,7 @@ module.exports.updatePassword = (request, httpResponse) => {
             if (err) throw err;
             if (result.nModified === 1) {
                 const response = new Response();
-                response.setInfoMsg('User Created');
+                response.setInfoMsg('Password Updated');
                 httpResponse.status(200);
                 response.sendResponse(httpResponse);
             } else {
