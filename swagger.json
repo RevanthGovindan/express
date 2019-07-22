@@ -12,7 +12,7 @@
     "basePath": "/",
     "tags": [
         {
-            "name": "Users",
+            "name": "User",
             "description": "API for users in the system"
         }
     ],
@@ -30,7 +30,7 @@
         "/user/adduser": {
             "post": {
                 "tags": [
-                    "Add user"
+                    "User"
                 ],
                 "description": "Add new user",
                 "parameters": [
@@ -53,10 +53,62 @@
                 }
             }
         },
+        "/user/generateotp": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "otp generate to verify email",
+                "parameters": [
+                    {
+                        "name": "user otp",
+                        "in": "body",
+                        "description": "verify user's email",
+                        "schema": {
+                            "$ref": "#/definitions/generateotp"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/user/verifyotp": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "otp to verify email",
+                "parameters": [
+                    {
+                        "name": "user otp",
+                        "in": "body",
+                        "description": "verify user's email",
+                        "schema": {
+                            "$ref": "#/definitions/verifyotp"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "202": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
         "/user/updatepassword": {
             "post": {
                 "tags": [
-                    "update password"
+                    "User"
                 ],
                 "description": "update password for user",
                 "parameters": [
@@ -82,7 +134,7 @@
         "/user/login": {
             "post": {
                 "tags": [
-                    "login"
+                    "User"
                 ],
                 "description": "user login",
                 "parameters": [
@@ -148,6 +200,38 @@
                     "uniqueItems": true
                 },
                 "country": {
+                    "type": "string",
+                    "uniqueItems": true
+                }
+            }
+        },
+        "generateotp": {
+            "required": [
+                "userId",
+                "userMail"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "userMail": {
+                    "type": "string",
+                    "uniqueItems": true
+                }
+            }
+        },
+        "verifyotp": {
+            "required": [
+                "userId",
+                "otpEntered"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "otpEntered": {
                     "type": "string",
                     "uniqueItems": true
                 }

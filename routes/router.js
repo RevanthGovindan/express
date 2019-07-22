@@ -20,6 +20,14 @@ router.post('/user/updatepassword', (req, res) => {
 
 router.post('/user/login', (req, res) => {
     userController.login(req, res);
-})
+});
+
+router.post('/user/generateotp', (req, res) => {
+    userController.generateOTP(req, res);
+});
+
+router.post('/user/verifyotp', (req, res) => {
+    userController.verifyOtp(req, res);
+});
 
 module.exports = router;

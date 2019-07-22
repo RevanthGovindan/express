@@ -2,6 +2,9 @@ const User = require('../models/User');
 const errHandler = require('../helpers/Errorhandler');
 const Response = require('../helpers/Response');
 const constant = require('../common/constants');
+const otpModel = require('../models/Otp');
+const commonHelper = require('../helpers/common');
+const sendMailer = require('../helpers/mailsender');
 
 module.exports.getUsers = (request, response) => {
     User.find((err, result) => {
@@ -79,5 +82,63 @@ module.exports.login = (request, httpRes) => {
             errHandler.Errorhandler(error, request, httpRes);
         }
     });
+}
 
+module.exports.generateOTP = (request, httpRes) => {
+    let requestData = request.body;
+    User.findOne({ email: requestData.userMail }, (err, result) => {
+        try {
+            if (err) throw err;
+            if (result === null) {
+                throw new Error("Invalid User");
+            } else {
+                let otpNumber = commonHelper.randomNumber(6);
+                let emailData = { email: requestData.userMail, value: `Your one time password to create account is ${otpNumber}, it will be expired soon.` };
+                var otpMail = new Promise((resolve, reject) => {
+                    sendMailer(emailData, resolve, reject);
+                });
+                otpMail.then((message) => {
+                    otpModel.create({ user_id: requestData.userId, otp_number: otpNumber, user_mail: requestData.userMail }, (err, result) => {
+                        try {
+                            if (err) throw err;
+                            let responseData = { isEmailSent: true };
+                            const response = new Response();
+                            httpRes.status(200);
+                            response.setInfoId(constant.infoId.SUCCESS);
+                            response.setData(responseData);
+                            response.sendResponse(httpRes);
+                        } catch (error) {
+                            errHandler.Errorhandler(error, request, httpRes);
+                        }
+                    });
+                }).catch((error) => {
+                    errHandler.Errorhandler(error, request, httpRes);
+                });
+            }
+        } catch (error) {
+            errHandler.Errorhandler(error, request, httpRes);
+        }
+    });
+};
+
+module.exports.verifyOtp = (request, httpRes) => {
+    let requestData = request.body;
+    otpModel.findOne({ user_id: requestData.userId, otp_number: requestData.otpEntered }, (err, result) => {
+        try {
+            if (err) throw err;
+            if (result === null) {
+                throw new Error("Invalid OTP")
+            } else {
+                let responseData = { otpVerified: true };
+                const response = new Response();
+                httpRes.status(202);
+                response.setInfoId(constant.infoId.SUCCESS);
+                response.setData(responseData);
+                response.sendResponse(httpRes);
+            }
+        } catch (error) {
+            error.code = 401;
+            errHandler.Errorhandler(error, request, httpRes);
+        }
+    });
 }
