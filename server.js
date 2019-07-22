@@ -17,7 +17,7 @@ server.use(app.intercept);
 server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 server.use("/", router);
 
-server.use(error.Errorhandler)
+//server.use(error.Errorhandler)
 
 server.listen(port, () => {
     console.log('Server is up and running on port numner ' + port);

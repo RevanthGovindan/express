@@ -3,8 +3,8 @@ const User = require('./User');
 const uuid = require('uuid/v4');
 
 var TransferLogs = new mongoose.Schema({
-    uuid: { type: String, default: uuid() },
-    transferedBy: User.uuid,
+    _id: { type: String, default: uuid() },
+    transferedBy: User._id,
     amount: Number,
     transferAt: Date,
     status: String,

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 const uuid = require('uuid/v4');
 var User = new mongoose.Schema({
-    id: { type: String, default: uuid() },
+    _id: { type: String, default: uuid() },
     name: String,
     email: String,
     phoneNo: String,
