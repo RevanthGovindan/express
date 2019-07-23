@@ -143,7 +143,7 @@ module.exports.verifyOtp = (request, httpRes) => {
                             response.setInfoMsg("OTP has been verified");
                             response.sendResponse(httpRes);
                         } else {
-                            throw new Error("User has beem already verified");
+                            throw new Error("User has been already verified");
                         }
                     } catch (error) {
                         errHandler.Errorhandler(error, request, httpRes);
