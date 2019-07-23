@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 const uuid = require('uuid/v4');
 var User = new mongoose.Schema({
-    _id: { type: String, default: uuid() },
+    _id: { type: String, default: uuid(), unique: true },
     name: String,
     email: String,
     phoneNo: String,
@@ -11,9 +11,9 @@ var User = new mongoose.Schema({
     state: String,
     country: String,
     password: String,
-    verified:{
-        type:Boolean,
-        default:false
+    verified: {
+        type: Boolean,
+        default: false
     }
 });
 

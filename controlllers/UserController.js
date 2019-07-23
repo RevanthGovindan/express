@@ -44,7 +44,7 @@ module.exports.addUser = (request, httpResponse) => {
 }
 
 module.exports.updatePassword = (request, httpResponse) => {
-    User.updateOne({ id: request.body.id }, { password: request.body.password }, (err, result) => {
+    User.updateOne({ _id: request.body.id }, { password: request.body.password }, (err, result) => {
         try {
             if (err) throw err;
             if (result.nModified === 1) {
