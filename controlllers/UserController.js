@@ -131,7 +131,7 @@ module.exports.verifyOtp = (request, httpRes) => {
             if (result === null) {
                 throw new Error("Invalid OTP")
             } else {
-                User.updateOne({ _id: requestData.userId, email: requestData.userEmail }, { verified: true }, (err, result) => {
+                User.updateOne({ _id: requestData.userId }, { verified: true }, (err, result) => {
                     try {
                         if (err) throw err;
                         if (result.nModified === 1) {
@@ -140,8 +140,10 @@ module.exports.verifyOtp = (request, httpRes) => {
                             httpRes.status(202);
                             response.setInfoId(constant.infoId.SUCCESS);
                             response.setData(responseData);
-                            response.sendResponse(httpRes);
                             response.setInfoMsg("OTP has been verified");
+                            response.sendResponse(httpRes);
+                        } else {
+                            throw new Error("User has beem already verified");
                         }
                     } catch (error) {
                         errHandler.Errorhandler(error, request, httpRes);
