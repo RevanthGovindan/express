@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
-const uuid = require('uuid/v4');
 
 var BankDetails = new mongoose.Schema({
-    _id: { type: String, default: uuid() },
     availablebanks: [{
         bankName: String,
         payInOptions: [{
