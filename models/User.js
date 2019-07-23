@@ -10,7 +10,11 @@ var User = new mongoose.Schema({
     city: String,
     state: String,
     country: String,
-    password: String
+    password: String,
+    verified:{
+        type:Boolean,
+        default:false
+    }
 });
 
 module.exports = mongoose.model('user', User);

@@ -224,7 +224,8 @@
         "verifyotp": {
             "required": [
                 "userId",
-                "otpEntered"
+                "otpEntered",
+                "userEmail"
             ],
             "properties": {
                 "userId": {
@@ -232,6 +233,10 @@
                     "uniqueItems": true
                 },
                 "otpEntered": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "userEmail": {
                     "type": "string",
                     "uniqueItems": true
                 }

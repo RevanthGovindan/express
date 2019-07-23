@@ -75,6 +75,7 @@ module.exports.login = (request, httpRes) => {
                 httpRes.status(200);
                 response.setInfoId(constant.infoId.UNAUTHORIZED);
                 response.setData(data);
+                response.setInfoMsg("Login success");
                 response.sendResponse(httpRes);
             }
         } catch (error) {
@@ -105,6 +106,7 @@ module.exports.generateOTP = (request, httpRes) => {
                             const response = new Response();
                             httpRes.status(200);
                             response.setInfoId(constant.infoId.SUCCESS);
+                            response.setInfoMsg("OTP has been sent");
                             response.setData(responseData);
                             response.sendResponse(httpRes);
                         } catch (error) {
@@ -123,18 +125,28 @@ module.exports.generateOTP = (request, httpRes) => {
 
 module.exports.verifyOtp = (request, httpRes) => {
     let requestData = request.body;
-    otpModel.findOne({ user_id: requestData.userId, otp_number: requestData.otpEntered }, (err, result) => {
+    otpModel.findOne({ user_mail: requestData.userEmail, user_id: requestData.userId, otp_number: requestData.otpEntered }, (err, result) => {
         try {
             if (err) throw err;
             if (result === null) {
                 throw new Error("Invalid OTP")
             } else {
-                let responseData = { otpVerified: true };
-                const response = new Response();
-                httpRes.status(202);
-                response.setInfoId(constant.infoId.SUCCESS);
-                response.setData(responseData);
-                response.sendResponse(httpRes);
+                User.updateOne({ _id: requestData.userId, email: requestData.userEmail }, { verified: true }, (err, result) => {
+                    try {
+                        if (err) throw err;
+                        if (result.nModified === 1) {
+                            let responseData = { otpVerified: true, isUserRegistered: true };
+                            const response = new Response();
+                            httpRes.status(202);
+                            response.setInfoId(constant.infoId.SUCCESS);
+                            response.setData(responseData);
+                            response.sendResponse(httpRes);
+                            response.setInfoMsg("OTP has been verified");
+                        }
+                    } catch (error) {
+                        errHandler.Errorhandler(error, request, httpRes);
+                    }
+                });
             }
         } catch (error) {
             error.code = 401;
