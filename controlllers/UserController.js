@@ -111,7 +111,7 @@ module.exports.generateOTP = (request, httpRes) => {
             if (result === null) {
                 throw new Error("Invalid User");
             } else {
-                let otpNumber = commonHelper.randomNumber(6);
+                let otpNumber = commonHelper.randomNumber();
                 let emailData = { email: requestData.userMail, value: `Your one time password to create account is ${otpNumber}, it will be expired soon.` };
                 var otpMail = new Promise((resolve, reject) => {
                     sendMailer(emailData, resolve, reject);
