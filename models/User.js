@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-const uuid = require('uuid/v4');
 var User = new mongoose.Schema({
     name: String,
     email: String,
