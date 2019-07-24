@@ -156,6 +156,32 @@
                     }
                 }
             }
+        },
+        "/addbanks": {
+            "post": {
+                "tags": [
+                    "Bank"
+                ],
+                "description": "Add Banks to particular user",
+                "parameters": [
+                    {
+                        "name": "add banks",
+                        "in": "body",
+                        "description": "Add banks",
+                        "schema": {
+                            "$ref": "#/definitions/addBank"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "success"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -271,6 +297,57 @@
                 "password": {
                     "type": "string",
                     "uniqueItems": true
+                }
+            }
+        },
+        "bank": {
+            "required": [
+                "bankName",
+                "payInOptions",
+                "accountNumber",
+                "accountType",
+                "ifsc"
+            ],
+            "properties": {
+                "bankName": {
+                    "type": "string"
+                },
+                "payInOptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "gateway": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "accountNumber": {
+                    "type": "string"
+                },
+                "accountType": {
+                    "type": "string"
+                },
+                "ifsc": {
+                    "type": "string"
+                }
+            }
+        },
+        "addBank": {
+            "required": [
+                "userId",
+                "bank"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "bank": {
+                    "$ref": "#/definitions/bank"
                 }
             }
         }

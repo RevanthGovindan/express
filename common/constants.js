@@ -4,9 +4,9 @@ module.exports.config = {
 
 module.exports.infoId = {
     SUCCESS: "001",
-    INPROGRESS: "002",
-    NODATA: "004",
-    UNAUTHORIZED: "003",
+    CREATED: "002",
+    INPROGRESS: "003",    
+    NODATA: "004",    
     UPDATEFAILED: "005",
     SESSIONEXPRED: "006",
     NAVIGATE: "007",

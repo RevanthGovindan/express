@@ -2,8 +2,15 @@ const express = require("express");
 
 const router = express.Router();
 const userController = require('../controlllers/UserController');
+const bankController = require('../controlllers/BankController');
+
+
 router.get('/one', (req, res) => {
     res.status(200).json({ message: 'Connected!' });
+});
+
+router.post('/addbanks', (req, res) => {
+    bankController.addBank(req,res);
 });
 
 router.get('/getusers', (req, res) => {
