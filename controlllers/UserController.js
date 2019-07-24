@@ -18,14 +18,31 @@ module.exports.addUser = (request, httpResponse) => {
     User.findOne({ email: body.email }, (err, result) => {
         try {
             if (err) throw err;
-            if (result) {
-                throw new Error("Email exists");
+            if (result && result.verified && result && result.password) {
+                throw new Error("User exists");
+            } else if (result && result.verified) {
+                const response = new Response();
+                const data = { accountDetails: result, navigateTo: constant.screens.UPDATE_PASSWORD };
+                response.setInfoId(constant.infoId.REDIRECT);
+                response.setInfoMsg('User verified but password is not set');
+                response.setData(data);
+                httpResponse.status(200);
+                response.sendResponse(httpResponse);
+            } else if (result) {
+                const response = new Response();
+                const data = { accountDetails: result, navigateTo: constant.screens.VERIFY_ACCOUNT };
+                response.setInfoId(constant.infoId.REDIRECT);
+                response.setInfoMsg('User Created but not verified');
+                response.setData(data);
+                httpResponse.status(200);
+                response.sendResponse(httpResponse);
             } else {
                 User.create(body, (err, result) => {
                     try {
                         if (err) throw err;
                         const response = new Response();
                         const data = { accountDetails: result };
+                        response.setInfoId(constant.infoId.SUCCESS);
                         response.setInfoMsg('User Created');
                         response.setData(data);
                         httpResponse.status(201);
@@ -49,6 +66,7 @@ module.exports.updatePassword = (request, httpResponse) => {
             if (err) throw err;
             if (result.nModified === 1) {
                 const response = new Response();
+                response.setInfoId(constant.infoId.SUCCESS);
                 response.setInfoMsg('Password Updated');
                 httpResponse.status(200);
                 response.sendResponse(httpResponse);
