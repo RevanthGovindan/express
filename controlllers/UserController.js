@@ -21,7 +21,7 @@ module.exports.getUserId = (request, httpResponse) => {
             if (err) throw err;
             const response = new Response();
             console.log(result)
-            const data = { userId : result._id };
+            const data = { userId: result._id };
             response.setInfoId(constant.infoId.SUCCESS);
             response.setInfoMsg('User id');
             response.setData(data);
@@ -169,24 +169,34 @@ module.exports.verifyOtp = (request, httpRes) => {
             if (result === null) {
                 throw new Error("Invalid OTP")
             } else {
-                User.updateOne({ _id: requestData.userId }, { verified: true }, (err, result) => {
-                    try {
-                        if (err) throw err;
-                        if (result.nModified === 1 || requestData.isForgotPassword === true) {
-                            let responseData = { otpVerified: true, isUserRegistered: true };
-                            const response = new Response();
-                            httpRes.status(202);
-                            response.setInfoId(constant.infoId.SUCCESS);
-                            response.setData(responseData);
-                            response.setInfoMsg("OTP has been verified");
-                            response.sendResponse(httpRes);
-                        } else {
-                            throw new Error("User has been already verified");
+                if (requestData.from === constant.otpFromKeys.SIGNUP) {
+                    User.updateOne({ _id: requestData.userId }, { verified: true }, (err, result) => {
+                        try {
+                            if (err) throw err;
+                            if (result.nModified === 1) {
+                                let responseData = { otpVerified: true, isUserRegistered: true };
+                                const response = new Response();
+                                httpRes.status(202);
+                                response.setInfoId(constant.infoId.SUCCESS);
+                                response.setData(responseData);
+                                response.setInfoMsg("OTP has been verified");
+                                response.sendResponse(httpRes);
+                            } else {
+                                throw new Error("User has been already verified");
+                            }
+                        } catch (error) {
+                            errHandler.Errorhandler(error, request, httpRes);
                         }
-                    } catch (error) {
-                        errHandler.Errorhandler(error, request, httpRes);
-                    }
-                });
+                    });
+                } else if (requestData.from === constant.otpFromKeys.FORGOTPASSWORD) {
+                    let responseData = { otpVerified: true };
+                    const response = new Response();
+                    httpRes.status(200);
+                    response.setInfoId(constant.infoId.SUCCESS);
+                    response.setData(responseData);
+                    response.setInfoMsg("OTP has been verified");
+                    response.sendResponse(httpRes);
+                }
             }
         } catch (error) {
             error.code = 401;

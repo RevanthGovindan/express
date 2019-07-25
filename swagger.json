@@ -38,7 +38,7 @@
                         "name": "email",
                         "in": "path",
                         "description": "User id",
-                        "required":true
+                        "required": true
                     }
                 ],
                 "produces": [
@@ -275,7 +275,8 @@
             "required": [
                 "userId",
                 "otpEntered",
-                "userEmail"
+                "userEmail",
+                "from"
             ],
             "properties": {
                 "userId": {
@@ -290,8 +291,9 @@
                     "type": "string",
                     "uniqueItems": true
                 },
-                "isForgotPassword" :{
-                    "type": "boolean"
+                "from": {
+                    "type": "boolean",
+                    "uniqueItems": true
                 }
             }
         },
