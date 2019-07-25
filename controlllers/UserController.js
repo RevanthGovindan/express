@@ -172,7 +172,7 @@ module.exports.verifyOtp = (request, httpRes) => {
                 User.updateOne({ _id: requestData.userId }, { verified: true }, (err, result) => {
                     try {
                         if (err) throw err;
-                        if (result.nModified === 1) {
+                        if (result.nModified === 1 || requestData.isForgotPassword === true) {
                             let responseData = { otpVerified: true, isUserRegistered: true };
                             const response = new Response();
                             httpRes.status(202);

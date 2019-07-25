@@ -289,6 +289,9 @@
                 "userEmail": {
                     "type": "string",
                     "uniqueItems": true
+                },
+                "isForgotPassword" :{
+                    "type": "boolean"
                 }
             }
         },
