@@ -13,6 +13,26 @@ module.exports.getUsers = (request, response) => {
     });
 }
 
+module.exports.getUserId = (request, httpResponse) => {
+    let email = request.params.email;
+    console.log(email)
+    User.findOne({ email: email }, (err, result) => {
+        try {
+            if (err) throw err;
+            const response = new Response();
+            console.log(result)
+            const data = { userId : result._id };
+            response.setInfoId(constant.infoId.SUCCESS);
+            response.setInfoMsg('User id');
+            response.setData(data);
+            httpResponse.status(200);
+            response.sendResponse(httpResponse);
+        } catch (error) {
+            errHandler.Errorhandler(error, request, httpResponse);
+        }
+    });
+}
+
 module.exports.addUser = (request, httpResponse) => {
     let body = request.body;
     User.findOne({ email: body.email }, (err, result) => {

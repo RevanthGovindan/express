@@ -27,6 +27,30 @@
         "application/json"
     ],
     "paths": {
+        "/user/getuserid/{email}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "description": "get user id",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "User id",
+                        "required":true
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
         "/user/adduser": {
             "post": {
                 "tags": [

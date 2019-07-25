@@ -17,6 +17,10 @@ router.get('/getusers', (req, res) => {
     userController.getUsers(req,res);
 });
 
+router.get('/user/getuserid/:email', (req, res) => {
+    userController.getUserId(req,res);
+});
+
 router.post('/user/adduser', (req, res) => {
     userController.addUser(req, res);
 });
