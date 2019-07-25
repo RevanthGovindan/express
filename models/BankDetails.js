@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var BankDetails = new mongoose.Schema({
-    user_id : String,
+    user_id: String,
     availablebanks: [{
         _id: false,
         bankName: String,
@@ -12,7 +12,11 @@ var BankDetails = new mongoose.Schema({
         }],
         accountNumber: String,
         accountType: String,
-        ifsc: String
+        ifsc: String,
+        balance: {
+            type: String,
+            default: "1000"
+        }
     }],
     availablefunds: Number
 });

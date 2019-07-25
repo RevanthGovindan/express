@@ -3,22 +3,22 @@ const express = require("express");
 const router = express.Router();
 const userController = require('../controlllers/UserController');
 const bankController = require('../controlllers/BankController');
-
+const addfundController = require('../controlllers/AddfundsController');
 
 router.get('/one', (req, res) => {
     res.status(200).json({ message: 'Connected!' });
 });
 
 router.post('/addbanks', (req, res) => {
-    bankController.addBank(req,res);
+    bankController.addBank(req, res);
 });
 
 router.get('/getusers', (req, res) => {
-    userController.getUsers(req,res);
+    userController.getUsers(req, res);
 });
 
 router.get('/user/getuserid/:email', (req, res) => {
-    userController.getUserId(req,res);
+    userController.getUserId(req, res);
 });
 
 router.post('/user/adduser', (req, res) => {
@@ -41,4 +41,11 @@ router.post('/user/verifyotp', (req, res) => {
     userController.verifyOtp(req, res);
 });
 
+router.put('/fund/addfunds', (req, res) => {
+    addfundController.addFunds(req, res);
+});
+
+router.get('/fund/:userId', (req, res) => {
+    bankController.fetchBanks(req, res);
+});
 module.exports = router;

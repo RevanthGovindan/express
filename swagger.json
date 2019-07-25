@@ -181,7 +181,7 @@
                 }
             }
         },
-        "/addbanks": {
+        "/fund/addbanks": {
             "post": {
                 "tags": [
                     "Bank"
@@ -202,6 +202,32 @@
                 ],
                 "responses": {
                     "201": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/fund/addfunds": {
+            "put": {
+                "tags": [
+                    "Bank"
+                ],
+                "description": "Add funds to particular user",
+                "parameters": [
+                    {
+                        "name": "add funds",
+                        "in": "body",
+                        "description": "Add funds",
+                        "schema": {
+                            "$ref": "#/definitions/addfunds"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
                         "description": "success"
                     }
                 }
@@ -377,6 +403,24 @@
                 },
                 "bank": {
                     "$ref": "#/definitions/bank"
+                }
+            }
+        },
+        "addfunds": {
+            "required": [
+                "userId",
+                "amount",
+                "bankName"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "string"
+                },
+                "bankName": {
+                    "type": "string"
                 }
             }
         }
