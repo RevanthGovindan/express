@@ -232,6 +232,30 @@
                     }
                 }
             }
+        },
+        "/fund/getbanks/{userId}": {
+            "get": {
+                "tags": [
+                    "Bank"
+                ],
+                "description": "get banks",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
         }
     },
     "definitions": {

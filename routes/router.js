@@ -45,7 +45,7 @@ router.put('/fund/addfunds', (req, res) => {
     addfundController.addFunds(req, res);
 });
 
-router.get('/fund/:userId', (req, res) => {
+router.get('/fund/getbanks/:userId', (req, res) => {
     bankController.fetchBanks(req, res);
 });
 module.exports = router;
