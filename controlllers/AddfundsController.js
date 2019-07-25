@@ -20,7 +20,7 @@ module.exports.addFunds = (request, httpResponse) => {
                             availableFunds += amount;
                             balance -= amount;
                         }
-                        bank.balance = balance;
+                        bank.balance = balance.toString();
                         return bank;
                     } else {
                         return bank;

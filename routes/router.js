@@ -54,5 +54,8 @@ router.put('/fund/withdrawfunds', (req, res) => {
     withdrawfundsController.withdrawfunds(req, res);
 });
 
+router.get('/fund/getfffff/:userId', (req, res) => {
+    withdrawfundsController.testing(req, res);
+});
 
 module.exports = router;

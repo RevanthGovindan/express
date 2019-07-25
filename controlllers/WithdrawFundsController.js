@@ -28,8 +28,11 @@ module.exports.withdrawfunds = (request, httpResponse) => {
                         return bank;
                     }
                 });
-                if(isUpdated){
-                    Bank.findOneAndUpdate({ user_id: requestBody.userId }, { availablefunds: availableFunds, availablebanks: availableBanks }, (err, result) => {
+                if (isUpdated) {
+                    Bank.findOneAndUpdate({ user_id: requestBody.userId }, {
+                        availablefunds: availableFunds.toString(),
+                        availablebanks: availableBanks
+                    }, (err, result) => {
                         try {
                             if (err) throw err;
                             if ((result)) {
@@ -49,12 +52,21 @@ module.exports.withdrawfunds = (request, httpResponse) => {
                     });
                 } else {
                     throw new Error("Bank not Available");
-                }                
+                }
             } else {
                 throw new Error("Error Occured");
             }
         } catch (error) {
             errHandler.Errorhandler(error, request, httpResponse);
         }
+    });
+}
+
+
+module.exports.testing = (req, response) => {
+    let id = req.params.userId;
+    Bank.find({ user_id: id, $elemMatch: { availablebanks: { bankName: "idfc" } } }, (err, result) => {
+        console.log(err)
+        response.send(result);
     });
 }

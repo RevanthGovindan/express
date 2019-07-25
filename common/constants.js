@@ -29,3 +29,8 @@ module.exports.otpFromKeys = {
     SIGNUP: "signup",
     FORGOTPASSWORD: "forgotpassword"
 }
+
+module.exports.transferStatus = {
+    PENDING: "pending",
+    TRANSFERED: "transfered"
+}

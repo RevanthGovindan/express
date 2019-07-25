@@ -3,8 +3,12 @@ const User = require('./User');
 
 var TransferLogs = new mongoose.Schema({
     transferedBy: User._id,
-    amount: Number,
-    transferAt: Date,
+    action: String,
+    amount: String,
+    transferAt: {
+        type: Date,
+        default: new Date
+    },
     status: String,
     bank: {
         bankName: String,
