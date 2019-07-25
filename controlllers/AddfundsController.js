@@ -43,7 +43,7 @@ module.exports.addFunds = (request, httpResponse) => {
                     } catch (error) {
                         errHandler.Errorhandler(error, request, httpResponse);
                     }
-                })
+                });
             }
         } catch (error) {
             errHandler.Errorhandler(error, request, httpResponse);

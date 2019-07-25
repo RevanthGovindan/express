@@ -233,6 +233,32 @@
                 }
             }
         },
+        "/fund/withdrawfunds": {
+            "put": {
+                "tags": [
+                    "Bank"
+                ],
+                "description": "Add funds to bank",
+                "parameters": [
+                    {
+                        "name": "funds withdraw",
+                        "in": "body",
+                        "description": "Withdraw funds",
+                        "schema": {
+                            "$ref": "#/definitions/withdraw"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
         "/fund/getbanks/{userId}": {
             "get": {
                 "tags": [
@@ -431,6 +457,24 @@
             }
         },
         "addfunds": {
+            "required": [
+                "userId",
+                "amount",
+                "bankName"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "string"
+                },
+                "bankName": {
+                    "type": "string"
+                }
+            }
+        },
+        "withdraw": {
             "required": [
                 "userId",
                 "amount",
