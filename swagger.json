@@ -368,7 +368,7 @@
                     "uniqueItems": true
                 },
                 "from": {
-                    "type": "boolean",
+                    "type": "string",
                     "uniqueItems": true
                 }
             }
