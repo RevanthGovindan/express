@@ -32,5 +32,11 @@ module.exports.otpFromKeys = {
 
 module.exports.transferStatus = {
     PENDING: "pending",
-    TRANSFERED: "transfered"
+    TRANSFERED: "transfered",
+    FAILED: "failed"
+}
+
+module.exports.transferActions = {
+    PAYIN: "payin",
+    PAYOUT: "payout"
 }

@@ -7,16 +7,19 @@ const errHandler = require('../helpers/Errorhandler');
 
 module.exports.pendingLogs = (request, httpResponse) => {
     let userId = request.params.userId;
-    TransferLog.find({ user_id: userId }, (err, result) => {
+    TransferLog.find({ transferedBy: userId }, (err, result) => {
         try {
             if (err) throw err;
             if (result) {
-                let logs = result.filter((log) => {
+                let logs = result.map((log) => {
                     if (log.status === constant.transferStatus.PENDING) {
-                        return true;
+                        if (log.action === constant.transferActions.PAYOUT) {
+                            log.isCancellable = true;
+                        }
+                        return log;
                     }
-                    return false;
                 });
+                console.log(logs)
                 const data = { pendingLogs: logs };
                 const response = new Response();
                 response.setInfoId(constant.infoId.SUCCESS);
@@ -35,7 +38,7 @@ module.exports.pendingLogs = (request, httpResponse) => {
 
 module.exports.transferLogs = (request, httpResponse) => {
     let userId = request.params.userId;
-    TransferLog.find({ user_id: userId }, (err, result) => {
+    TransferLog.find({ transferedBy: userId }, (err, result) => {
         try {
             if (err) throw err;
             if (result) {

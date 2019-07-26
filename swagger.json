@@ -282,6 +282,54 @@
                     }
                 }
             }
+        },
+        "/fund/pendinglogs/{userId}": {
+            "get": {
+                "tags": [
+                    "Transfer"
+                ],
+                "description": "get pending logs",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/fund/transferlogs/{userId}": {
+            "get": {
+                "tags": [
+                    "Transfer"
+                ],
+                "description": "get transfer logs",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -478,7 +526,8 @@
             "required": [
                 "userId",
                 "amount",
-                "bankName"
+                "bankName",
+                "paymentMode"
             ],
             "properties": {
                 "userId": {
@@ -488,6 +537,9 @@
                     "type": "string"
                 },
                 "bankName": {
+                    "type": "string"
+                },
+                "paymentMode": {
                     "type": "string"
                 }
             }

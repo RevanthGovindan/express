@@ -5,6 +5,7 @@ const userController = require('../controlllers/UserController');
 const bankController = require('../controlllers/BankController');
 const addfundController = require('../controlllers/AddfundsController');
 const withdrawfundsController = require('../controlllers/WithdrawFundsController');
+const transferLogsController = require('../controlllers/TransferLogsController');
 
 router.get('/one', (req, res) => {
     res.status(200).json({ message: 'Connected!' });
@@ -54,8 +55,12 @@ router.put('/fund/withdrawfunds', (req, res) => {
     withdrawfundsController.withdrawfunds(req, res);
 });
 
-router.get('/fund/getfffff/:userId', (req, res) => {
-    withdrawfundsController.testing(req, res);
+router.get('/fund/pendinglogs/:userId', (req, res) => {
+    transferLogsController.pendingLogs(req,res);
+});
+
+router.get('/fund/transferlogs/:userId', (req, res) => {
+    transferLogsController.transferLogs(req,res);
 });
 
 module.exports = router;

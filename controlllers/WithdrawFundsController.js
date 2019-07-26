@@ -1,14 +1,20 @@
 const Bank = require('../models/BankDetails');
+const TransferLog = require('../models/TransferLogs');
 const Response = require('../helpers/Response');
 const constant = require('../common/constants');
 const errHandler = require('../helpers/Errorhandler');
+const log = require('../helpers/log4j').logger;
 
 module.exports.withdrawfunds = (request, httpResponse) => {
     let requestBody = request.body;
+    let transferLog = {};
     Bank.findOne({ user_id: requestBody.userId }, (err, result) => {
         try {
             if (err) throw err;
             if (result) {
+                transferLog.transferedBy = requestBody.userId;
+                transferLog.action = constant.transferActions.PAYOUT;
+                transferLog.amount = requestBody.amount;
                 let isUpdated = false;
                 let availableFunds = parseFloat(result.availablefunds);
                 let availableBanks = result.availablebanks.map((bank) => {
@@ -23,6 +29,12 @@ module.exports.withdrawfunds = (request, httpResponse) => {
                             balance += amount;
                         }
                         bank.balance = balance;
+                        let bankData = {
+                            bankName: bank.bankName,
+                            ifsc: bank.ifsc,
+                            paymentMode: requestBody.paymentMode
+                        };
+                        transferLog.bank = bankData;
                         return bank;
                     } else {
                         return bank;
@@ -36,6 +48,7 @@ module.exports.withdrawfunds = (request, httpResponse) => {
                         try {
                             if (err) throw err;
                             if ((result)) {
+                                transferLog.status = constant.transferStatus.PENDING;
                                 const data = { amountAdded: true };
                                 const response = new Response();
                                 response.setInfoId(constant.infoId.SUCCESS);
@@ -44,29 +57,30 @@ module.exports.withdrawfunds = (request, httpResponse) => {
                                 httpResponse.status(200);
                                 response.sendResponse(httpResponse);
                             } else {
+                                transferLog.status = constant.transferStatus.FAILED;
                                 throw new Error("Failed");
                             }
                         } catch (error) {
                             errHandler.Errorhandler(error, request, httpResponse);
+                        } finally{
+                            console.log(transferLog)
+                            TransferLog.create(transferLog,(err,result)=>{
+                                try{
+                                    if(err) throw err;
+                                } catch(error){
+                                    log.error(error);
+                                }
+                            });
                         }
                     });
                 } else {
                     throw new Error("Bank not Available");
                 }
             } else {
-                throw new Error("Error Occured");
+                throw new Error("No Banks Available");
             }
         } catch (error) {
             errHandler.Errorhandler(error, request, httpResponse);
         }
-    });
-}
-
-
-module.exports.testing = (req, response) => {
-    let id = req.params.userId;
-    Bank.find({ user_id: id, $elemMatch: { availablebanks: { bankName: "idfc" } } }, (err, result) => {
-        console.log(err)
-        response.send(result);
     });
 }
