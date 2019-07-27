@@ -11,10 +11,6 @@ router.get('/one', (req, res) => {
     res.status(200).json({ message: 'Connected!' });
 });
 
-router.post('/addbanks', (req, res) => {
-    bankController.addBank(req, res);
-});
-
 router.get('/getusers', (req, res) => {
     userController.getUsers(req, res);
 });
@@ -41,6 +37,10 @@ router.post('/user/generateotp', (req, res) => {
 
 router.post('/user/verifyotp', (req, res) => {
     userController.verifyOtp(req, res);
+});
+
+router.post('/fund/addbank', (req, res) => {
+    bankController.addBank(req, res);
 });
 
 router.get('/fund/getbanks/:userId', (req, res) => {
