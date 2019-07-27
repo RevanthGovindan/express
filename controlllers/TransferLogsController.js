@@ -19,14 +19,17 @@ module.exports.pendingLogs = (request, httpResponse) => {
                         return log;
                     }
                 });
-                console.log(logs)
-                const data = { pendingLogs: logs };
-                const response = new Response();
-                response.setInfoId(constant.infoId.SUCCESS);
-                response.setInfoMsg('Pending Logs');
-                response.setData(data);
-                httpResponse.status(200);
-                response.sendResponse(httpResponse);
+                if(logs.length > 0){
+                    const data = { pendingLogs: logs };
+                    const response = new Response();
+                    response.setInfoId(constant.infoId.SUCCESS);
+                    response.setInfoMsg('Pending Logs');
+                    response.setData(data);
+                    httpResponse.status(200);
+                    response.sendResponse(httpResponse);
+                } else {
+                    throw new Error("No Data Found");
+                }                
             } else {
                 throw new Error("No Data Found");
             }
@@ -41,7 +44,7 @@ module.exports.transferLogs = (request, httpResponse) => {
     TransferLog.find({ transferedBy: userId }, (err, result) => {
         try {
             if (err) throw err;
-            if (result) {
+            if (result && result.length > 0) {
                 const data = { transferLogs: result };
                 const response = new Response();
                 response.setInfoId(constant.infoId.SUCCESS);
