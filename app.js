@@ -8,10 +8,8 @@ module.exports.cors = (req, res, next) => {
 }
 
 module.exports.intercept = (req, res, next) => {
-    if(req.body){
+    if(req.body !== {}){
         log.debug(req.body);
-    } else {
-        log.debug(req.params);
     }
     next();
 }

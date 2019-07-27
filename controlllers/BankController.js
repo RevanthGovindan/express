@@ -3,7 +3,7 @@ const Response = require('../helpers/Response');
 const constant = require('../common/constants');
 const errHandler = require('../helpers/Errorhandler');
 
-module.exports.addBank = (req, httpResponse) => {
+module.exports.addBank = (request, httpResponse) => {
     let body = request.body;
     Bank.findOneAndUpdate({ user_id: body.userId }, { $push: { availablebanks: body.bank } }, (err, result) => {
         try {

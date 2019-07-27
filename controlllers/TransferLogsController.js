@@ -42,7 +42,7 @@ module.exports.transferLogs = (request, httpResponse) => {
         try {
             if (err) throw err;
             if (result) {
-                const data = { pendingLogs: result };
+                const data = { transferLogs: result };
                 const response = new Response();
                 response.setInfoId(constant.infoId.SUCCESS);
                 response.setInfoMsg('Transfer Logs');
