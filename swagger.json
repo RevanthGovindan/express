@@ -181,7 +181,7 @@
                 }
             }
         },
-        "/fund/addbanks": {
+        "/fund/addbank": {
             "post": {
                 "tags": [
                     "Bank"
