@@ -18,7 +18,10 @@ var BankDetails = new mongoose.Schema({
             default: "1000"
         }
     }],
-    availablefunds: Number
+    availablefunds: {
+        type: String,
+        default: '1000'
+    }
 });
 
 module.exports = mongoose.model('bankdetails', BankDetails);
