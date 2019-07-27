@@ -30,16 +30,22 @@ module.exports.fetchBanks = (request, httpResponse) => {
     let body = request.params;
     try {
         Bank.findOne({ user_id: body.userId }, (err, result) => {
-            if (err) throw err;
-            if (result) {
-                const data = { availablebanks: result };
-                const response = new Response();
-                response.setInfoId(constant.infoId.SUCCESS);
-                response.setInfoMsg('Banks fetched');
-                response.setData(data);
-                httpResponse.status(200);
-                response.sendResponse(httpResponse);
-            } 
+            try {
+                if (err) throw err;
+                if (result) {
+                    const data = { availablebanks: result };
+                    const response = new Response();
+                    response.setInfoId(constant.infoId.SUCCESS);
+                    response.setInfoMsg('Banks fetched');
+                    response.setData(data);
+                    httpResponse.status(200);
+                    response.sendResponse(httpResponse);
+                } else {
+                    throw new Error("No banks available");
+                }
+            } catch (error) {
+                errHandler.Errorhandler(error, request, httpResponse);
+            }
         });
     } catch (error) {
         errHandler.Errorhandler(error, request, httpResponse);
