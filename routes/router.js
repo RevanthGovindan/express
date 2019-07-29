@@ -63,4 +63,8 @@ router.get('/fund/transferlogs/:userId', (req, res) => {
     transferLogsController.transferLogs(req,res);
 });
 
+router.put('/fund/cancelpayment', (req, res) => {
+    transferLogsController.cancelPayment(req,res);
+});
+
 module.exports = router;

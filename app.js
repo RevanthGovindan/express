@@ -9,7 +9,7 @@ module.exports.cors = (req, res, next) => {
 
 module.exports.intercept = (req, res, next) => {
     if(req.body !== {}){
-        log.debug(req.body);
+        log.debug(JSON.stringify(req.body));
     }
     next();
 }

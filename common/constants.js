@@ -33,7 +33,8 @@ module.exports.otpFromKeys = {
 module.exports.transferStatus = {
     PENDING: "pending",
     TRANSFERED: "transfered",
-    FAILED: "failed"
+    FAILED: "failed",
+    CANCELLED: "cancelled"
 }
 
 module.exports.transferActions = {

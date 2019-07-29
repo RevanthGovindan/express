@@ -19,7 +19,7 @@ module.exports.pendingLogs = (request, httpResponse) => {
                         return log;
                     }
                 });
-                if(logs.length > 0){
+                if (logs.length > 0) {
                     const data = { pendingLogs: logs };
                     const response = new Response();
                     response.setInfoId(constant.infoId.SUCCESS);
@@ -29,7 +29,7 @@ module.exports.pendingLogs = (request, httpResponse) => {
                     response.sendResponse(httpResponse);
                 } else {
                     throw new Error("No Data Found");
-                }                
+                }
             } else {
                 throw new Error("No Data Found");
             }
@@ -62,6 +62,51 @@ module.exports.transferLogs = (request, httpResponse) => {
 };
 
 module.exports.cancelPayment = (request, httpResponse) => {
-
-
+    let transactionId = request.body.transactionId;
+    try {
+        TransferLog.findOne({ _id: transactionId }, (err, transferLogs) => {
+            if (err) throw err;
+            let amount = parseFloat(transferLogs.amount);
+            let bankName = transferLogs.bank.bankName;
+            let ifscCode = transferLogs.bank.ifsc;
+            Bank.findOne({ user_id: transferLogs.transferedBy }, (err, bankResults) => {
+                if (err) throw err;
+                let availableFunds = parseFloat(bankResults.availablefunds);
+                let availableBanks = bankResults.availablebanks.map((bank) => {
+                    if (bank.bankName === bankName && bank.ifsc === ifscCode) {
+                        let balance = parseFloat(bank.balance);
+                        balance -= amount;
+                        availableFunds += amount;
+                        bank.balance = balance.toString();
+                        return bank;
+                    } else {
+                        return bank;
+                    }
+                });
+                Bank.updateOne({ user_id: transferLogs.transferedBy }, { availablefunds: availableFunds.toString(), availablebanks: availableBanks }, (err, Updateresult) => {
+                    if (err) throw err;
+                    if (Updateresult) {
+                        TransferLog.updateOne({ _id: transactionId }, { status: constant.transferStatus.CANCELLED }, (err, transferLogs) => {
+                            if (err) throw err;
+                            if (transferLogs.nModified === 1) {
+                                const data = {};
+                                const response = new Response();
+                                response.setInfoId(constant.infoId.SUCCESS);
+                                response.setInfoMsg('Payment Cancelled');
+                                response.setData(data);
+                                httpResponse.status(200);
+                                response.sendResponse(httpResponse);
+                            } else {
+                                throw new Error('Failed');
+                            }
+                        });
+                    } else {
+                        throw new Error('Failed');
+                    }
+                });
+            });
+        });
+    } catch (error) {
+        errHandler.Errorhandler(error, request, httpResponse);
+    }
 };

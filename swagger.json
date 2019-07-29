@@ -330,6 +330,32 @@
                     }
                 }
             }
+        },
+        "/fund/cancelpayment": {
+            "put": {
+                "tags": [
+                    "Transfer"
+                ],
+                "description": "Cancel payment",
+                "parameters": [
+                    {
+                        "name": "cancel withdraw payment",
+                        "in": "body",
+                        "description": "Withdraw funds",
+                        "schema": {
+                            "$ref": "#/definitions/cancelpayment"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -540,6 +566,16 @@
                     "type": "string"
                 },
                 "paymentMode": {
+                    "type": "string"
+                }
+            }
+        },
+        "cancelpayment": {
+            "required": [
+                "transactionId"
+            ],
+            "properties": {
+                "transactionId": {
                     "type": "string"
                 }
             }
