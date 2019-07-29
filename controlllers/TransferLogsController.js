@@ -7,7 +7,7 @@ const errHandler = require('../helpers/Errorhandler');
 
 module.exports.pendingLogs = (request, httpResponse) => {
     let userId = request.params.userId;
-    TransferLog.find({ transferedBy: userId }, (err, result) => {
+    TransferLog.find({ transferedBy: userId }).sort({ transferAt: -1 }).exec((err, result) => {
         try {
             if (err) throw err;
             if (result) {
@@ -41,7 +41,7 @@ module.exports.pendingLogs = (request, httpResponse) => {
 
 module.exports.transferLogs = (request, httpResponse) => {
     let userId = request.params.userId;
-    TransferLog.find({ transferedBy: userId }, (err, result) => {
+    TransferLog.find({ transferedBy: userId }).sort({ transferAt: -1 }).exec((err, result) => {
         try {
             if (err) throw err;
             if (result && result.length > 0) {
@@ -59,7 +59,7 @@ module.exports.transferLogs = (request, httpResponse) => {
             errHandler.Errorhandler(error, request, httpResponse);
         }
     });
-};
+}
 
 module.exports.cancelPayment = (request, httpResponse) => {
     let transactionId = request.body.transactionId;

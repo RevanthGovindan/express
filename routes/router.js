@@ -31,6 +31,10 @@ router.post('/user/login', (req, res) => {
     userController.login(req, res);
 });
 
+router.post('/user/logout', (req, res) => {
+    userController.logout(req, res);
+});
+
 router.post('/user/generateotp', (req, res) => {
     userController.generateOTP(req, res);
 });

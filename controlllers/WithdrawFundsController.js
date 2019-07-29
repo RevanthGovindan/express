@@ -63,7 +63,6 @@ module.exports.withdrawfunds = (request, httpResponse) => {
                         } catch (error) {
                             errHandler.Errorhandler(error, request, httpResponse);
                         } finally{
-                            console.log(transferLog)
                             TransferLog.create(transferLog,(err,result)=>{
                                 try{
                                     if(err) throw err;

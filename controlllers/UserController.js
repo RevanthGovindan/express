@@ -5,6 +5,7 @@ const constant = require('../common/constants');
 const otpModel = require('../models/Otp');
 const commonHelper = require('../helpers/common');
 const sendMailer = require('../helpers/mailsender');
+const Session = require('../models/Sessions');
 
 module.exports.getUsers = (request, response) => {
     User.find((err, result) => {
@@ -19,7 +20,7 @@ module.exports.getUserId = (request, httpResponse) => {
     User.findOne({ email: email }, (err, result) => {
         try {
             if (err) throw err;
-            if(result&&result !== null){
+            if (result && result !== null) {
                 const response = new Response();
                 const data = { userId: result._id };
                 response.setInfoId(constant.infoId.SUCCESS);
@@ -27,9 +28,9 @@ module.exports.getUserId = (request, httpResponse) => {
                 response.setData(data);
                 httpResponse.status(200);
                 response.sendResponse(httpResponse);
-            } else{
+            } else {
                 throw new Error("Invalid Email");
-            }            
+            }
         } catch (error) {
             errHandler.Errorhandler(error, request, httpResponse);
         }
@@ -111,19 +112,34 @@ module.exports.login = (request, httpRes) => {
             if (result === null) {
                 throw new Error("Invalid credentials")
             } else {
-                const response = new Response();
-                const data = { accountDetails: result };
-                httpRes.status(200);
-                response.setInfoId(constant.infoId.UNAUTHORIZED);
-                response.setData(data);
-                response.setInfoMsg("Login success");
-                response.sendResponse(httpRes);
+                let sessionObj = {
+                    user_id: result._id
+                }
+                Session.create(sessionObj, (err, session) => {
+                    try {
+                        if (err) throw err;
+                        const response = new Response();
+                        const data = { accountDetails: result, session_id: session._id };
+                        httpRes.status(200);
+                        response.setInfoId(constant.infoId.UNAUTHORIZED);
+                        response.setData(data);
+                        response.setInfoMsg("Login success");
+                        response.sendResponse(httpRes);
+                    } catch (error) {
+                        error.code = 401;
+                        errHandler.Errorhandler(error, request, httpRes);
+                    }
+                });
             }
         } catch (error) {
             error.code = 401;
             errHandler.Errorhandler(error, request, httpRes);
         }
     });
+}
+
+module.exports.logout = (request, httpRes) => {
+    
 }
 
 module.exports.generateOTP = (request, httpRes) => {
