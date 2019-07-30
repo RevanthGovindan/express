@@ -15,6 +15,7 @@ module.exports.withdrawfunds = (request, httpResponse) => {
                 transferLog.transferedBy = requestBody.userId;
                 transferLog.action = constant.transferActions.PAYOUT;
                 transferLog.amount = requestBody.amount;
+                transferLog.transferAt = new Date;
                 let isUpdated = false;
                 let availableFunds = parseFloat(result.availablefunds);
                 let availableBanks = result.availablebanks.map((bank) => {

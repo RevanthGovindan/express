@@ -6,8 +6,7 @@ var TransferLogs = new mongoose.Schema({
     action: String,
     amount: String,
     transferAt: {
-        type: Date,
-        default: new Date
+        type: Date
     },
     status: String,
     bank: {
