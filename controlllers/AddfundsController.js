@@ -12,7 +12,7 @@ module.exports.addFunds = (request, httpResponse) => {
         try {
             if (err) throw err;
             if (result) {
-                transferLog.transferdBy = requestBody.userId;
+                transferLog.transferedBy = requestBody.userId;
                 transferLog.action = constant.transferActions.PAYIN;
                 transferLog.amount = requestBody.amount;
                 let isUpdated = false;
