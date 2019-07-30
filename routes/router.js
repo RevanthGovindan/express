@@ -7,7 +7,7 @@ const addfundController = require('../controlllers/AddfundsController');
 const withdrawfundsController = require('../controlllers/WithdrawFundsController');
 const transferLogsController = require('../controlllers/TransferLogsController');
 
-router.get('/one', (req, res) => {
+router.get('/', (req, res) => {
     res.status(200).json({ message: 'Connected!' });
 });
 
